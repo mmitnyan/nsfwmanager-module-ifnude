@@ -158,41 +158,10 @@ if errorlevel 1 (
 echo [OK] Compilation terminee.
 echo.
 
-
-REM ==========================================================
-REM   MSI SIGNATURE 
-REM ==========================================================
-echo [4.1] MSI Signing...
-echo ----------------------------------------------------------
-
-signtool sign /v /tr http://timestamp.digicert.com /td sha256 /fd sha256 /a /n "Manuel Mitnyan" "%MSI_OUT%"
-
-if %ERRORLEVEL% neq 0 (
-    echo [ERREUR] Echec de la signature MSI.
-    pause & exit /b 1
-)
-
-echo Verification de la signature MSI...
-signtool verify /pa "%MSI_OUT%"
-set VERIFY_MSI_RC=%ERRORLEVEL%
-
-if %VERIFY_MSI_RC% equ 0 (
-    echo [OK] Verification MSI valide.
-) else if %VERIFY_MSI_RC% equ 1 (
-    echo [INFO] Signature MSI valide mais verification partielle ^(timestamp ou chaine non encore resolue^).
-) else (
-    echo [ERREUR] Verification MSI invalide.
-    pause & exit /b 1
-)
-
-echo [OK] MSI signe et valide.
-echo.
-
-
 REM --- [5/6] Edition de liens MSI ---
 echo [5/6] Edition de liens (light)...
 if exist "%MSI_OUT%" del /q "%MSI_OUT%"
-"%LIGHT%" -nologo -ext WixUIExtension -dWixUIBannerBmp="%WIX_BANNER_BMP%" -dWixUIDialogBmp="%WIX_DIALOG_BMP%" "%OBJ_MAIN%" "%OBJ_HARVEST%" "%OBJ_HARVEST_ASSETS%" -out "%MSI_OUT%" -sice:ICE38 -sice:ICE57 -sice:ICE64
+"%LIGHT%" -nologo -ext WixUIExtension -dWixUIBannerBmp="%WIX_BANNER_BMP%" -dWixUIDialogBmp="%WIX_DIALOG_BMP%" "%OBJ_MAIN%" "%OBJ_HARVEST%" "%OBJ_HARVEST_ASSETS%" -out "%MSI_OUT%" -sice:ICE38 -sice:ICE57 -sice:ICE64 -sice:ICE91
 if errorlevel 1 (
     echo [ERREUR] light a echoue.
     exit /b 1
@@ -205,6 +174,34 @@ for %%I in ("%MSI_OUT%") do set MSI_SIZE=%%~zI
 set /a MSI_MB=!MSI_SIZE! / 1024 / 1024
 echo [OK] MSI cree: %MSI_OUT%
 echo      Taille: !MSI_MB! Mo
+echo.
+
+REM ==========================================================
+REM   MSI SIGNATURE (sur l'artefact final)
+REM ==========================================================
+echo [5.5/6] MSI Signing...
+echo ----------------------------------------------------------
+
+signtool sign /v /tr http://timestamp.digicert.com /td sha256 /fd sha256 /a /n "Manuel Mitnyan" "%MSI_OUT%"
+if errorlevel 1 (
+    echo [ERREUR] Echec de la signature MSI.
+    exit /b 1
+)
+
+echo Verification de la signature MSI...
+signtool verify /pa "%MSI_OUT%"
+set VERIFY_MSI_RC=%ERRORLEVEL%
+
+if %VERIFY_MSI_RC% equ 0 (
+    echo [OK] Verification MSI valide.
+) else if %VERIFY_MSI_RC% equ 1 (
+    echo [INFO] Signature MSI valide mais verification partielle ^(timestamp ou chaine non encore resolue^).
+) else (
+    echo [ERREUR] Verification MSI invalide.
+    exit /b 1
+)
+
+echo [OK] MSI signe et valide.
 echo.
 
 REM --- [6/6] Resume ---

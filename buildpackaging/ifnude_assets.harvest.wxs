@@ -5,13 +5,13 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="AssetsComponents">
-            <Component Id="cmpF50E00DFD0749F5E1FA66C8A65D5E7C5" Directory="ASSETSDIR" Guid="{7F5F8104-6805-42F9-9C68-BEE732C95993}">
+            <Component Id="cmpF50E00DFD0749F5E1FA66C8A65D5E7C5" Directory="ASSETSDIR" Guid="{1A433AB2-AF95-48C0-BD5D-44235B840B7F}">
                 <File Id="fil58E938458C9FB030881654BE209572BF" KeyPath="yes" Source="$(var.AssetsSourceRoot)\icon.ico" />
             </Component>
-            <Component Id="cmpB6EBFAE6C184571669504C9CB96508D0" Directory="ASSETSDIR" Guid="{98C372E9-29BA-407C-89EE-E89040E9F6FC}">
+            <Component Id="cmpB6EBFAE6C184571669504C9CB96508D0" Directory="ASSETSDIR" Guid="{F97F4EFC-297C-425F-BD9E-0561487DE583}">
                 <File Id="fil30517252ED8CABBD0B6F0CAED96A7561" KeyPath="yes" Source="$(var.AssetsSourceRoot)\WixUIBannerBmp.bmp" />
             </Component>
-            <Component Id="cmp64D4A942CAE035D7C204629E2B3CFA02" Directory="ASSETSDIR" Guid="{D5827D38-7B72-4065-A721-D5CCD792A71E}">
+            <Component Id="cmp64D4A942CAE035D7C204629E2B3CFA02" Directory="ASSETSDIR" Guid="{8C18FAD3-CAD4-4FD7-A233-9AFEE5D2C612}">
                 <File Id="fil197813D3691A34F954910432BF860392" KeyPath="yes" Source="$(var.AssetsSourceRoot)\WixUIDialogBmp.bmp" />
             </Component>
         </ComponentGroup>

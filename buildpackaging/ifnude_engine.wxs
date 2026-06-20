@@ -26,6 +26,16 @@
     <WixVariable Id="WixUILicenseRtf" Value="$(var.LicenseRtfPath)" />
     <UIRef Id="WixUI_Minimal" />
 
+    <Property Id="NSFWMANAGEREXE">
+      <DirectorySearch Id="NsfwManagerInstallDirSearch" Path="C:\Program Files\NSFW Manager" Depth="0">
+        <FileSearch Id="NsfwManagerExeSearch" Name="nsfwmanager.exe" />
+      </DirectorySearch>
+    </Property>
+
+    <Condition Message="NSFW Manager must be installed in C:\Program Files\NSFW Manager before installing this ifnude engine package.">
+      Installed OR NSFWMANAGEREXE
+    </Condition>
+
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="LocalAppDataFolder">
         <Directory Id="NSFWMANAGERDIR" Name="NsfwManager">

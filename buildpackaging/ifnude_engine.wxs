@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product
+      Id="*"
+      Name="NSFW Manager - ifnude Engine $(var.NsfwManagerVersion)-$(var.IfnudeVersion)"
+      Language="1033"
+      Version="$(var.NsfwManagerVersion)"
+      Manufacturer="NSFW Manager"
+      UpgradeCode="6D661E9F-0FF7-4D40-BD10-84B553D6D617">
+
+    <Package
+        InstallerVersion="301"
+        Compressed="yes"
+        InstallScope="perUser"
+        InstallPrivileges="limited"
+        Platform="x64" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer ifnude engine package is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Icon Id="IfnudeMsiIcon" SourceFile="..\\assets\\icon.ico" />
+    <Property Id="ARPPRODUCTICON" Value="IfnudeMsiIcon" />
+    <Property Id="ARPURLINFOABOUT" Value="https://github.com/s0md3v/ifnude" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALTEXT" Value="Restart NSFW Manager to start using the ifnude detection engine." />
+
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.LicenseRtfPath)" />
+    <UIRef Id="WixUI_Minimal" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="LocalAppDataFolder">
+        <Directory Id="NSFWMANAGERDIR" Name="NsfwManager">
+          <Directory Id="ENGINESDIR" Name="engines">
+            <Directory Id="ASSETSDIR" Name="assets" />
+            <Directory Id="IFNUDE_MAIN_DIR" Name="ifnude-main" />
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <DirectoryRef Id="ENGINESDIR">
+      <Component Id="IfnudeEngineInstallMarker" Guid="3E248926-3F86-44C9-BBAF-74E8F7A2C702">
+        <RegistryValue
+            Root="HKCU"
+        Key="Software\NSFWManager\Engines"
+            Name="ifnude-main-installed"
+            Type="integer"
+            Value="1"
+            KeyPath="yes" />
+      </Component>
+
+      <Component Id="IfnudeEngineReadme" Guid="8D06E70C-4DA7-4A27-AAA4-B2DD25F76922">
+        <File Id="IfnudeEngineReadmeFile" Source="..\README.md" Name="README.md" KeyPath="yes" />
+      </Component>
+
+      <Component Id="IfnudeEngineLicense" Guid="ECB01E1B-4A1A-40F2-81F8-F39E4592D053">
+        <File Id="IfnudeEngineLicenseFile" Source="..\LICENSE" Name="LICENSE" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="IfnudeEngineFeature" Title="ifnude engine" Level="1" Display="expand">
+      <ComponentRef Id="IfnudeEngineInstallMarker" />
+      <ComponentRef Id="IfnudeEngineReadme" />
+      <ComponentRef Id="IfnudeEngineLicense" />
+      <ComponentGroupRef Id="AssetsComponents" />
+      <ComponentGroupRef Id="IfnudeMainComponents" />
+    </Feature>
+  </Product>
+</Wix>

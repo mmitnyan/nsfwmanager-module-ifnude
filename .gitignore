@@ -39,3 +39,5 @@ sbin/
 # ifnude dedicated MSI generated payload/artifacts
 ifnude_payload/
 ifnude_engine.harvest.wxs
+scripts/
+scripts/*
